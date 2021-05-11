@@ -68,6 +68,7 @@ export class Initialize1569118664968 implements MigrationInterface {
         { name: 'birthdate', type: COLUMN_TYPES.TEXT, isNullable: true },
         { name: 'address', type: COLUMN_TYPES.TEXT, length: '50', isNullable: true },
         { name: 'postalCode', type: COLUMN_TYPES.TEXT, length: '50', isNullable: true },
+        { name: 'areaCode', type: COLUMN_TYPES.TEXT, length: '5', isNullable: true },
         { name: 'phoneNumber', type: COLUMN_TYPES.TEXT, length: '20', isNullable: true },
         { name: 'termsAndConditions', type: COLUMN_TYPES.INT, default: false },
         { name: FOREIGN_KEYS.ROLE_ID, type: COLUMN_TYPES.INT },
@@ -192,17 +193,18 @@ export class Initialize1569118664968 implements MigrationInterface {
     passportDocumentType.name = 'Passport'
     await queryRunner.manager.save(passportDocumentType)
 
-    const encryptedPassword = await encryptPassword('1111')
+    const encryptedPassword = await encryptPassword('qatest1669')
     const currentdate = new Date()
     const user = new User ({
-      id: '1234',
+      id: '681094118',
       password: encryptedPassword,
-      email: 'juandanichollsc@gmail.com',
-      firstName: 'J.D',
-      lastName: 'Nicholls',
-      address: 'XXX XX XX',
-      phoneNumber: '3156208581',
-      postalCode: '050023',
+      email: 'test_user_83958037@testuser.com',
+      firstName: 'Lalo',
+      lastName: 'Landa',
+      address: 'Insurgentes Sur 1602',
+      areaCode: '52',
+      phoneNumber: '5549737300',
+      postalCode: '03940',
       birthdate: currentdate,
       termsAndConditions: true,
       status: UserStatus.Active,

@@ -3,9 +3,17 @@ import * as jwt from 'jsonwebtoken'
 export const PROD_ENV = 'production'
 export const DOMAIN = 'http://localhost:8001'
 export const MERCADOPAGO = {
-  ACCESS_TOKEN: 'TEST-849819765734274-030421-f6d2cd03d33e3c96ac6bb0dd768fe216-98687279',
+  ACCESS_TOKEN: 'APP_USR-2572771298846850-120119-a50dbddca35ac9b7e15118d47 b111b5a-681067803',
+  PLATFORM_ID: undefined,
+  CORPORATION_ID: undefined,
+  INTEGRATOR_ID: 'dev_24c65fb163bf11ea96500242ac130004',
+  BUSINESS_NAME: 'MINEGOCIO',
   CURRENCY_ID: 'COP',
-  NOTIFICATION_URL: `${DOMAIN}/api/payments/notification`
+  COLOMBIA_TAX: 16,
+  NOTIFICATION_URL: `${DOMAIN}/api/payments/notification`,
+  SUCCESS_URL: `${DOMAIN}/success`,
+  FAILURE_URL: `${DOMAIN}/failure`,
+  PENDING_URL: `${DOMAIN}/pending`
 }
 export const AUTH_SECRET_TOKEN = 'my_secret_token';
 export const AUTH_JWT_OPTIONS: jwt.SignOptions = {

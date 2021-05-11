@@ -94,6 +94,10 @@ export class User implements IUser {
   @Column('text', { nullable: true })
   password?: string
 
+  @ApiProperty({ description: 'Area code' })
+  @Column({ type: 'text', length: 5, nullable: true, default: '57' })
+  areaCode?: string
+
   @ApiProperty({ description: 'Phone number' })
   @Column({ type: 'text', length: 20, nullable: true })
   phoneNumber?: string

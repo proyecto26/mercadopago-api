@@ -9,7 +9,7 @@ import { Role } from '../models/role'
 
 describe('AuthService', () => {
   let service: AuthService
-  const userService = { findByDocument: jest.fn(() => Promise.resolve(new User())) }
+  const userService = { findOne: jest.fn(() => Promise.resolve(new User())) }
   const roleService = { findById: jest.fn(() => Promise.resolve(new Role())) }
   const jwtService = { sign: jest.fn(({ sub, role }) => sub + role) }
 
@@ -40,7 +40,7 @@ describe('AuthService', () => {
 
     await service.validateUser(document, password).catch(() => null)
     
-    expect(userService.findByDocument).toBeCalledWith(document)
+    expect(userService.findOne).toBeCalledWith(document)
   })
 
   it('should get access token', async () => {

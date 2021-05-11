@@ -20,7 +20,7 @@ if (
 
 const connectionOptions: ConnectionOptions = {
   type: 'sqlite',
-  database: config.database || 'my_database' || ':memory:',
+  database: config.database || ':memory:',
   entities: [
     join(__dirname, '../models/*{.ts,.js}'),
   ],

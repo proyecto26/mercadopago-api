@@ -34,20 +34,22 @@ Es un dato obligatorio. Sirven para validar la identidad de la cuenta por medio 
 
 ### Checkout
 
-#### Crear preferencia de pago
-Permite iniciar el proceso de pago, nos devuelve una url `init_point` para realizar el pago desde MercadoPago por medio de una redirección.
-Al finalizar el proceso de pago se recibe una notificación por medio de un WebHook que se configura en la creación de la preferencia con una url `notification_url`.
+- Crear preferencia de pago:
+Permite iniciar el proceso de pago, al crear una preferencia se obtiene una url `init_point` para redireccionar los usuarios a un flujo de checkout.
+Al finalizar el proceso de pago se recibe una notificación por medio de un Webhook que se configura en la creación de la preferencia, con una url `notification_url` de la API de nuestro negocio.
 
-Link: https://www.mercadopago.com.co/developers/es/reference/preferences/_checkout_preferences/post/
+Link: https://www.mercadopago.com.co/developers/es/reference/preferences/_checkout_preferences/post
 
-#### Redirección de usuario
+- Notificaciones:
+Es necesario definir un endpoint donde se notificará el resultado del proceso de pago.
 
-Link: 
+Link: https://www.mercadopago.com.co/developers/es/guides/notifications/webhooks
 
 
 ### Testing
 - [Checkout Pro](https://www.mercadopago.com.co/developers/es/guides/online-payments/checkout-pro/test-integration)
 - [Checkout API](https://www.mercadopago.com.co/developers/es/guides/online-payments/checkout-api/testing)
+- **sandbox_init_point**: Url usada para emular un flujo de pago por medio de una redirección de nuestros usuarios con tarjetas de prueba.
 
 ## Installation 📚
 
