@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>HOME VIEW - API</title>
+    <%- include('./shared/head'); %>
+    <title>MercadoPago API!</title>
   </head>
   <body>
-    <%= message %>
+    <div class="container-fluid">
+      <header>
+        <h1 class="text-center mt-3">
+          <%= message %>
+        </h1>
+      </header>
+    </div>
+    <%- include('./shared/scripts'); %>
   </body>
 </html>

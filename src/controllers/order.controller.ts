@@ -95,8 +95,8 @@ export class OrderController {
         totalAmount,
         orderItems
       }))
-      const { body } = await createPreference(user, order)
-      return body
+      const preference = await createPreference(user, order)
+      return preference
     } catch (error) {
       switch (error.code) {
         default:

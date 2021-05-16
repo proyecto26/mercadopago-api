@@ -25,18 +25,21 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiBadRequestResponse,
-  ApiForbiddenResponse
+  ApiForbiddenResponse,
+  ApiParam
 } from '@nestjs/swagger'
 import { ERRORS, POSTGRES } from '../constants'
 import { PaymentDto } from '../models/payment'
-import { NotificationDto } from '../models/notification'
-import { createPayment, updatePayment, cancelPayment } from '../services/payment'
+import { NotificationAction, NotificationDto } from '../models/notification'
+import { PaymentOrderStatus, createPayment, updatePayment, cancelPayment, findPayment, refundPayment } from '../services/payment'
+import { OrderService } from '../repositories'
+import { Order } from '../models/order'
 
 @ApiTags('Payments')
 @Controller('/api/payments')
 export class PaymentController {
   constructor(
-    // private readonly paymentService: PaymentService,
+    private readonly orderService: OrderService,
     @Inject(Logger) private readonly logger: LoggerService
   ) { }
 
@@ -61,7 +64,19 @@ export class PaymentController {
     @Body() notification: NotificationDto
   ): Promise<void> {
     try {
-      console.log('NOTIFICATION', notification)
+      this.logger.log(notification, 'NOTIFICATION')
+      if (
+        notification.action === NotificationAction.PaymentCreated
+        || notification.action === NotificationAction.PaymentUpdated
+      ) {
+        const { status, status_detail, external_reference } = await findPayment(Number(notification.data.id))
+        this.logger.debug(status, status_detail)
+        // TODO: Validate status_detail: acredited, partially_refunded
+        await this.orderService.update(new Order({
+          id: external_reference,
+          status: PaymentOrderStatus[status]
+        }))
+      }
     } catch (error) {
       /**
        * Validate exceptions
@@ -69,6 +84,32 @@ export class PaymentController {
       switch(error.code) {
         default:
           this.logger.error(error.message, 'WEBHOOK_NOTIFICATION')
+          throw new BadRequestException(error.message)
+      }
+    }
+  }
+
+  @ApiOperation({ summary: 'Create a refunds by payment id' })
+  @ApiParam({ description: 'The id of the payment', type: Number, name: 'id' })
+  @ApiOkResponse({ description: 'The transaction was processed successfully' })
+  @ApiBadRequestResponse({ description: 'The transaction could not be processed' })
+  @ApiForbiddenResponse({ description: 'You do not have the necessary role to perform this action' })
+  @Post('refunds/:id')
+  @HttpCode(HttpStatus.OK)
+  async refunds(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<void> {
+    try {
+      this.logger.log(id, 'REFUNDS')
+      const result = await refundPayment(id)
+      return result
+    } catch (error) {
+      /**
+       * Validate exceptions
+       */
+      switch(error.code) {
+        default:
+          this.logger.error(error.message, 'REFUNDS')
           throw new BadRequestException(error.message)
       }
     }

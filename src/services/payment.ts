@@ -7,7 +7,7 @@ import { CreatePaymentPayload } from 'mercadopago/models/payment/create-payload.
 import { UpdatePaymentPayload } from 'mercadopago/models/payment/update-payload.model'
 import { MERCADOPAGO } from '../constants'
 import { User } from '../models/user'
-import { Order } from '../models/order'
+import { Order, OrderStatus } from '../models/order'
 import { DefaultConfigurationOmitQs } from 'mercadopago/models/default-configuration.model'
 
 MercadoPago.configure({
@@ -18,6 +18,18 @@ MercadoPago.configure({
 })
 
 const currencyId = <Currency>MERCADOPAGO.CURRENCY_ID
+
+export const PaymentOrderStatus = {
+  pending: OrderStatus.Created,
+  approved: OrderStatus.Fulfilled,
+  authorized: OrderStatus.Paid,
+  in_process: OrderStatus.Created,
+  in_mediation: OrderStatus.Created,
+  rejected: OrderStatus.Refunded,
+  cancelled: OrderStatus.Refunded,
+  refunded: OrderStatus.Refunded,
+  charged_back: OrderStatus.Refunded
+}
 
 const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
   payer: {
@@ -40,6 +52,8 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     }
   },
   shipments: {
+    cost: MERCADOPAGO.SHIPMENTS_COST,
+    mode: 'custom',
     receiver_address: {
       zip_code: user.postalCode,
       street_number: '1602',
@@ -48,7 +62,8 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
       apartment: '1523',
       city_name: 'Medellin',
       state_name: 'Antioquia'
-    }
+    },
+    free_methods: []
   }
 })
 
@@ -78,10 +93,6 @@ export const createPreference = (user: User, order: Order) => {
     notification_url: MERCADOPAGO.NOTIFICATION_URL,
     statement_descriptor: MERCADOPAGO.BUSINESS_NAME,
     additional_info: 'CUSTOM DATA',
-    shipments: {
-      cost: 1000,
-      mode: 'not_specified'
-    },
     back_urls: {
       success: MERCADOPAGO.SUCCESS_URL,
       failure: MERCADOPAGO.FAILURE_URL,
@@ -92,14 +103,16 @@ export const createPreference = (user: User, order: Order) => {
         { id: 'amex' }
       ],
       excluded_payment_types: [
-        { id: 'atm' }
+        { id: 'atm' },
+        { id: 'ticket' }
       ],
       installments: 6,
-      default_installments: 1
+      default_installments: 1,
+      default_payment_method_id: null
     },
     taxes: [{
       type: 'IVA',
-      value: MERCADOPAGO.COLOMBIA_TAX
+      value: MERCADOPAGO.TAXES_IVA
     }],
     /* tracks: [
       {
@@ -117,15 +130,15 @@ export const createPreference = (user: User, order: Order) => {
       }
     ] */
   }
-  return MercadoPago.preferences.create(preference) 
+  return MercadoPago.preferences.create(preference).then((res) => res.body)
 }
 
 export const updatePreference = (preference: UpdatePreferencePayload) => {
   return MercadoPago.preferences.update(preference) 
 }
 
-export const findPayment = (paymentId: number, configuration: DefaultConfigurationOmitQs) => {
-  return MercadoPago.payment.findById(paymentId, configuration)
+export const findPayment = (paymentId: number, configuration?: DefaultConfigurationOmitQs) => {
+  return MercadoPago.payment.findById(paymentId, configuration).then((res) => res.body)
 }
 
 export const createPayment = (payment: CreatePaymentPayload) => {
@@ -141,4 +154,11 @@ export const updatePayment = (paymentId: number, status: UpdatePaymentPayload['s
 
 export const cancelPayment = (paymentId: number) => {
   return MercadoPago.payment.cancel(paymentId)
+}
+
+export const refundPayment = (paymentId: number, amount?: number) => {
+  return MercadoPago.refund.create({
+    payment_id: paymentId,
+    amount // partial refunds if an amount less than the total payment is established here.
+  }).then((res) => res.body)
 }

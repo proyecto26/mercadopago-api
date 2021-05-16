@@ -13,6 +13,9 @@ export class NotificationData {
 }
 
 export class NotificationDto {
+  @ApiProperty({ description: 'Id of the notification' })
+  id: number
+
   @ApiProperty({ description: 'Action of the notification', enum: NotificationAction })
   action: NotificationAction
 
@@ -21,9 +24,6 @@ export class NotificationDto {
 
   @ApiProperty({ description: 'Date of the notification', name: 'date_created', type: Date })
   dateCreated: string
-
-  @ApiProperty({ description: 'Id of the notification' })
-  id: number
 
   @ApiProperty({ description: 'Type of notification' })
   type: 'payment' | 'mp-connect' | 'plan' | 'subscription' | 'invoice'

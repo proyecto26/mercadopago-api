@@ -30,7 +30,7 @@ export class OrderService {
     return this.repository.update(order.id, order)
   }
 
-  delete(orderId: number) {
-    return this.repository.delete(orderId)
+  delete(id: number) {
+    return this.repository.delete(id)
   }
 }
