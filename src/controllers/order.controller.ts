@@ -103,7 +103,7 @@ export class OrderController {
       switch (error.code) {
         default:
           this.logger.error(error.message, 'ADD_ORDER')
-          throw new BadRequestException(error.message)
+          throw new BadRequestException(error, error.message)
       }
     }
   }
