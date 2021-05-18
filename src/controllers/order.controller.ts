@@ -14,7 +14,8 @@ import {
   Logger,
   LoggerService,
   Request,
-  Body
+  Body,
+  HttpException
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -103,7 +104,10 @@ export class OrderController {
       switch (error.code) {
         default:
           this.logger.error(error.message, 'ADD_ORDER')
-          throw new BadRequestException(error, error.message)
+          throw new HttpException({
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            error: error.message,
+          }, HttpStatus.INTERNAL_SERVER_ERROR)
       }
     }
   }
