@@ -108,7 +108,7 @@ export class OrderController {
       switch (error.code) {
         default:
           this.logger.error(error.message, 'ADD_ORDER')
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error })
+          res.status(HttpStatus.BAD_REQUEST).send({ error: error.message })
       }
     }
   }
