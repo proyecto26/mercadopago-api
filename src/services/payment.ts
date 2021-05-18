@@ -36,7 +36,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     name: user.firstName,
     surname: user.lastName,
     email: user.email,
-    date_created: user.createDate.toISOString(),
+    date_created: moment(user.createDate).format(),
     phone: {
       area_code: user.areaCode,
       number: Number(user.phoneNumber) as any // TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
@@ -51,20 +51,19 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
       street_number: 1602 as any// TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
     }
   },
-  shipments: {
+  /*shipments: {
     cost: MERCADOPAGO.SHIPMENTS_COST,
     mode: 'custom',
     receiver_address: {
       zip_code: user.postalCode,
-      street_number: 1602 as any,// TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
+      street_number: '1602',
       street_name: 'Insurgentes Sur',
       floor: '15',
       apartment: '1523',
       city_name: 'Medellin',
       state_name: 'Antioquia'
-    },
-    free_methods: []
-  }
+    }
+  }*/
 })
 
 const formatOrder = (order: Order): Partial<CreatePreferencePayload> => ({
@@ -73,7 +72,7 @@ const formatOrder = (order: Order): Partial<CreatePreferencePayload> => ({
     title: orderItem.item.title,
     description: orderItem.item.description,
     picture_url: orderItem.item.pictureUrl,
-    category_id: `${orderItem.item.categoryId}`, // Available categories at https://api.mercadopago.com/item_categories
+    category_id: `others`, // Available categories at https://api.mercadopago.com/item_categories
     quantity: orderItem.quantity,
     currency_id: currencyId,
     unit_price: orderItem.unitPrice
@@ -88,11 +87,11 @@ export const createPreference = (user: User, order: Order) => {
     binary_mode: false,
     auto_return: 'approved',
     // expires: true,
-    // expiration_date_from: currentDate.toISOString(),
-    // expiration_date_to: moment(currentDate).add(3, 'days').toISOString(),
+    // expiration_date_from: moment(currentDate).format(),
+    // expiration_date_to: moment(currentDate).add(1, 'days').format(),
     notification_url: MERCADOPAGO.NOTIFICATION_URL,
     statement_descriptor: MERCADOPAGO.BUSINESS_NAME,
-    additional_info: 'CUSTOM DATA',
+    // additional_info: 'CUSTOM DATA',
     back_urls: {
       success: MERCADOPAGO.SUCCESS_URL,
       failure: MERCADOPAGO.FAILURE_URL,

@@ -14,8 +14,7 @@ import {
   Logger,
   LoggerService,
   Request,
-  Body,
-  Response
+  Body
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -27,8 +26,6 @@ import {
   ApiBody
 } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
-import { Response as ResponseExpress } from 'express'
-
 import { DefaultRole } from '../models/role'
 import { AuthUser } from '../models/auth'
 import { Order, OrderStatus } from '../models/order'
@@ -38,7 +35,7 @@ import { UserService, ItemService, OrderService } from '../repositories'
 import { RolesGuard, Roles } from '../auth'
 import { ERRORS } from '../constants'
 import { createPreference } from '../services/payment'
-
+import { PreferenceDto } from '../models/preference'
 
 @ApiTags('Orders')
 @Controller('/api/orders')
@@ -60,7 +57,7 @@ export class OrderController {
 
   @ApiOperation({ summary: 'Create order' })
   @ApiBody({ type: ItemDto, isArray: true, description: 'Items of the order' })
-  @ApiOkResponse({ description: 'The order has been created successfully' })
+  @ApiOkResponse({ description: 'The order has been created successfully', type: PreferenceDto })
   @ApiBadRequestResponse({ description: 'The order could not be created' })
   @ApiForbiddenResponse({ description: 'You do not have the necessary role to perform this action' })
   //@ApiBearerAuth()
@@ -74,7 +71,6 @@ export class OrderController {
   async addOrder(
     @Request() req: { user: AuthUser },
     @Body() itemsDto: ItemDto[],
-    @Response() res: ResponseExpress
   ): Promise<void> {
     try {
       if (!itemsDto.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
@@ -108,7 +104,7 @@ export class OrderController {
       switch (error.code) {
         default:
           this.logger.error(error.message, 'ADD_ORDER')
-          res.status(HttpStatus.BAD_REQUEST).send({ error: error.message })
+          throw new BadRequestException(error.message)
       }
     }
   }

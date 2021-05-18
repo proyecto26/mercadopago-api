@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { Shipments } from 'mercadopago/models/payment/create-payload.model'
 import { PreferenceShipment, PreferenceTrack } from 'mercadopago/models/preferences/create-payload.model'
 import { SimpleAddress } from 'mercadopago/shared/address'
@@ -53,7 +54,12 @@ export class TaxDto {
 }
 
 export class PreferenceDto {
+  @ApiProperty({ description: 'Payment preference id' })
   id: string
+
+  @ApiProperty({ description: 'Url to redirect users to a checkout flow' })
+  init_point?: string
+
   collector_id?: number
   items: Array<PreferenceItemDto>
   payer: PayerDto
@@ -71,7 +77,6 @@ export class PreferenceDto {
   shipments: PreferenceShipment
   statement_descriptor?: string
   date_created?: string
-  init_point?: string
   sandbox_init_point?: string
   tracks?: Array<PreferenceTrack>
   notification_url: string
