@@ -143,6 +143,7 @@
             .then((response) => response.json())
             .then((data) => {
                 if (data.init_point) {
+                    debugger
                     return location.href = data.init_point
                 } else if (data.message) {
                     throw new Error(data.message);

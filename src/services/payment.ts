@@ -39,7 +39,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     date_created: user.createDate.toISOString(),
     phone: {
       area_code: user.areaCode,
-      number: user.phoneNumber
+      number: Number(user.phoneNumber) as any // TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
     },
     identification: {
       type: 'CC', // Available ID types at https://api.mercadopago.com/v1/identification_types
@@ -48,7 +48,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     address: {
       street_name: user.address,
       zip_code: user.postalCode,
-      street_number: '1602'
+      street_number: 1602 as any// TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
     }
   },
   shipments: {
@@ -56,7 +56,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     mode: 'custom',
     receiver_address: {
       zip_code: user.postalCode,
-      street_number: '1602',
+      street_number: 1602 as any,// TODO: Remove workaround, issue with types https://github.com/mercadopago/devsite-docs/issues/1173 
       street_name: 'Insurgentes Sur',
       floor: '15',
       apartment: '1523',
@@ -87,9 +87,9 @@ export const createPreference = (user: User, order: Order) => {
     ...formatOrder(order),
     binary_mode: false,
     auto_return: 'approved',
-    expires: true,
-    expiration_date_from: currentDate.toISOString(),
-    expiration_date_to: moment(currentDate).add(3, 'days').toISOString(),
+    // expires: true,
+    // expiration_date_from: currentDate.toISOString(),
+    // expiration_date_to: moment(currentDate).add(3, 'days').toISOString(),
     notification_url: MERCADOPAGO.NOTIFICATION_URL,
     statement_descriptor: MERCADOPAGO.BUSINESS_NAME,
     additional_info: 'CUSTOM DATA',
@@ -103,11 +103,10 @@ export const createPreference = (user: User, order: Order) => {
         { id: 'amex' }
       ],
       excluded_payment_types: [
-        { id: 'atm' },
-        { id: 'ticket' }
+        { id: 'atm' }
       ],
       installments: 6,
-      default_installments: 1,
+      default_installments: 6,
       // default_payment_method_id: null
     },
     taxes: [{

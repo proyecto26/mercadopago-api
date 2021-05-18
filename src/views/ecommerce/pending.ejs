@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <%- include('../shared/head'); %>
+        <title>MercadoPago API - Pago pendiente o en proceso</title>
+        <style>
+            pre {
+                background: #eee;
+                font-family: monospace;
+                font-size: 15px;
+                font-size: 0.9375rem;
+                line-height: 1.5;
+                margin-bottom: 1.6em;
+                max-width: 100%;
+                overflow: auto;
+                padding: 1.6em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <%- include('./header'); %>
+            <section>
+                <h2 class="text-center mt-3">
+                    Pago pendiente
+                </h2>
+                <pre><%= JSON.stringify(params, null, "\t") %></pre>
+            </section>
+        </div>
+        <%- include('../shared/scripts'); %>
+    </body>
+</html>

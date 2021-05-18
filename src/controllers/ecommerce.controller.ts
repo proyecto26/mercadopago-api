@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Query, ParseIntPipe, Render } from '@nestjs/common'
+import { Controller, Get, Param, Query, ParseIntPipe, Render, Req } from '@nestjs/common'
+import { Request } from 'express'
 import * as numeral from 'numeral'
 import { Item } from '../models/item'
 import { CategoryService, ItemService } from '../repositories'
@@ -14,6 +15,43 @@ export class ECommerceController {
     private readonly itemService: ItemService,
     private readonly categoryService: CategoryService,
   ) {}
+
+  @Get('success')
+  @Render('ecommerce/success')
+  getSuccess(
+    @Req() request: Request,
+    @Query('payment_method_id') paymentMethod: string,
+    @Query('external_reference') orderReference: string,
+    @Query('payment_id') paymentId: string,
+    @Query('collection_id') collectionId: string
+  ) {
+    return {
+      params: request.query,
+      paymentMethod,
+      orderReference,
+      paymentId: paymentId || collectionId
+    }
+  }
+
+  @Get('pending')
+  @Render('ecommerce/pending')
+  getPending(
+    @Req() request: Request
+  ) {
+    return {
+      params: request.query
+    }
+  }
+
+  @Get('failure')
+  @Render('ecommerce/failure')
+  getFailure(
+    @Req() request: Request
+  ) {
+    return {
+      params: request.query
+    }
+  }
 
   @Get('detail/:id')
   @Render('ecommerce/detail')
