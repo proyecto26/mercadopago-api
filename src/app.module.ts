@@ -20,7 +20,8 @@ import {
   CategoryController,
   ItemController,
   OrderController,
-  PaymentController
+  PaymentController,
+  ECommerceController
 } from './controllers'
 
 @Module({
@@ -42,7 +43,8 @@ import {
     CategoryController,
     ItemController,
     OrderController,
-    PaymentController
+    PaymentController,
+    ECommerceController
   ],
   providers: [Logger, AppService],
 })

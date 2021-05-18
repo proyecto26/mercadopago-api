@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include('../shared/head'); %>
+    <title>MercadoPago API - Ecommerce</title>
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    <style>
+        .card-section {
+            padding: 80px 0 80px;
+        }
+
+        .card {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none !important;
+            background-image: linear-gradient(315deg, #6e72fc 0%, #ad1deb 74%);
+        }
+
+        .card-two {
+            background-image: linear-gradient(315deg, #fc6e6e 0%, #ad1deb 74%);
+        }
+
+        .card-three {
+            background-image: linear-gradient(315deg, #007cc6 0%, #d24aeb 74%);
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .card-text {
+            color: #ddd;
+            padding-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: transparent !important;
+            border: 2px solid #fff !important;
+            border-radius: inherit !important;
+        }
+
+        .cart-btn {
+            background-color: #edeef2 !important;
+            color: #000 !important;
+            border-radius: 30px !important;
+            margin: 0 auto;
+            margin-top: -21px;
+            margin-right: 16px
+        }
+
+        .first-bt {
+            border: 4px solid #933ff1 !important;
+        }
+
+        .second-bt {
+            border: 4px solid #d748a8 !important;
+        }
+
+        .third-bt {
+            border: 4px solid #6365d8 !important;
+        }
+
+        .fa-cart-plus {
+            padding-right: 10px;
+        }
+
+        img {
+            height: 60vh;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('./header'); %>
+        <section>
+            <div class="card">
+                <div class="row">
+                    <div class="col">
+                        <img src="<%= item.pictureUrl %>" class="card-img-top" alt="...">
+                    </div>
+                    <div class="col">
+                        <a href="#" class="btn btn-primary first-bt cart-btn">
+                            <%= item.price %>
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= item.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= item.description %>
+                            </p>
+                            <div class="row">
+                                <select class="col form-select">
+                                    <option selected>Seleccionar cantidad</option>
+                                    <option value="1">Uno</option>
+                                    <option value="2">Dos</option>
+                                    <option value="3">Tres</option>
+                                    <option value="4">Cuatro</option>
+                                    <option value="5">Cinco</option>
+                                </select>
+                                <button class="btn btn-primary col mx-3">
+                                    <i class="fas fa-coins mx-2"></i>Pagar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <%- include('../shared/scripts'); %>
+    <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+    <script>
+        var createOrderEndpoint = '/api/orders'
+        var item = <%- JSON.stringify(item) %>
+        $('.btn-primary').on('click', function (event) {
+            event.preventDefault()
+            var quantity = Number($('select').val())
+            if (!quantity) {
+                return alert('La cantidad es requerida')
+            }
+            $.blockUI({ message: 'Cargando' });
+
+            var orderItem = Object.assign({
+                quantity
+            }, item)
+
+            fetch(createOrderEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify([orderItem])
+            }).then((res) => {
+                const data = res.json()
+                if (data.init_point) {
+                    return location.href = data.init_point
+                }
+                $.unblockUI()
+            }).catch((err) => {
+                $.unblockUI()
+                console.error(err)
+            })
+        })
+    </script>
+</body>
+
+</html>

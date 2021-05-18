@@ -18,6 +18,17 @@ export class ItemService {
     )
   }
 
+  async findOne(id: number): Promise<Item> {
+    return await this.repository.findOne(id)
+  }
+
+  findByCategory(id: number) {
+    return this.repository
+      .createQueryBuilder('item')
+      .where('item.categoryId = :id', { id })
+      .getMany()
+  }
+
   findByIds(ids: number[]) {
     return this.repository
       .createQueryBuilder('item')

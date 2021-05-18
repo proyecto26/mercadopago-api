@@ -215,90 +215,105 @@ export class Initialize1569118664968 implements MigrationInterface {
     })
     await queryRunner.manager.save(user)
 
-    const categoryId = 1
-    const category = new Category({ id: categoryId, name: 'Desserts' })
+    const dessertsCategoryId = 1
+    const category = new Category({ id: dessertsCategoryId, name: 'Desserts' })
     await queryRunner.manager.save(category)
+
+    const smartphonesCategoryId = 2
+    await queryRunner.manager.save(new Category({
+      id: smartphonesCategoryId,
+      name: 'Smartphones'
+    }))
+
+    const assetsPath = `${DOMAIN}/assets/images`
 
     const items = plainToClass(Item, <Item[]>[
       {
         id: 1,
         title: 'Brownie',
         description: 'Suave y húmedo brownie de chocolate',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-1.jpg`,
+        pictureUrl: `${assetsPath}/dessert-1.jpg`,
         price: 2500,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 2,
         title: 'Pan de chocolate',
         description: 'Pan artesanal de chocolate semi-amargo',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-2.jpg`,
+        pictureUrl: `${assetsPath}/dessert-2.jpg`,
         price: 2500,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 3,
         title: 'Trufas',
         description: 'Cajas de trufas de chocolate con rellenos surtidos',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-3.jpg`,
+        pictureUrl: `${assetsPath}/dessert-3.jpg`,
         price: 2000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 4,
         title: 'Macaroons',
         description: 'Macaroons de diferentes sabores',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-4.jpg`,
+        pictureUrl: `${assetsPath}/dessert-4.jpg`,
         price: 4000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 5,
         title: 'Galletas',
         description: 'Galletas con chips de chocolate',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-5.jpg`,
+        pictureUrl: `${assetsPath}/dessert-5.jpg`,
         price: 4000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 6,
         title: 'Helado',
         description: 'Helado artesanales sencillo de diferentes sabores.',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-6.jpg`,
+        pictureUrl: `${assetsPath}/dessert-6.jpg`,
         price: 4000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 7,
         title: 'Cupcakes',
         description: 'Cupcakes de chocolate con crema de diferentes sabores.',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-7.jpg`,
+        pictureUrl: `${assetsPath}/dessert-7.jpg`,
         price: 8000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 8,
         title: 'Paletas',
         description: 'Paletas artesanales de diferentes sabores.',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-8.jpg`,
+        pictureUrl: `${assetsPath}/dessert-8.jpg`,
         price: 5000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 9,
         title: 'Donuts',
         description: 'Donuts con rellenos y coberturas de diferentes sabores.',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-9.jpg`,
+        pictureUrl: `${assetsPath}/dessert-9.jpg`,
         price: 5000,
-        categoryId
+        categoryId: dessertsCategoryId
       },
       {
         id: 10,
         title: 'Torta',
         description: 'Porción de torta de chocolate.',
-        pictureUrl: `${DOMAIN}/assets/images/dessert-10.jpg`,
+        pictureUrl: `${assetsPath}/dessert-10.jpg`,
         price: 4500,
-        categoryId
+        categoryId: dessertsCategoryId
+      }, {
+        id: 1234,
+        title: 'Samsung Galaxy S9',
+        description: 'Dispositivo móvil de Tienda e-commerce',
+        pictureUrl: `${assetsPath}/samsung-galaxy-s9-xxl.jpg`,
+        price: 10000000,
+        categoryId: smartphonesCategoryId
       }
     ])
     await queryRunner.manager.save(items)

@@ -72,7 +72,9 @@ export class OrderController {
     @Body() itemsDto: ItemDto[],
   ): Promise<void> {
     try {
-      const userId = req.user?.id || '1234'
+      if (!itemsDto.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
+      // TODO: Enable Auth to avoid using test user
+      const userId = req.user?.id || '681094118'
       const items = await this.itemService.findByIds(itemsDto.map(i => i.id))
       if (!items.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
 

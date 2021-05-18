@@ -38,7 +38,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
     email: user.email,
     date_created: user.createDate.toISOString(),
     phone: {
-      area_code: '57',
+      area_code: user.areaCode,
       number: user.phoneNumber
     },
     identification: {
@@ -108,7 +108,7 @@ export const createPreference = (user: User, order: Order) => {
       ],
       installments: 6,
       default_installments: 1,
-      default_payment_method_id: null
+      // default_payment_method_id: null
     },
     taxes: [{
       type: 'IVA',
