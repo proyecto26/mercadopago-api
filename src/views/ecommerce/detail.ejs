@@ -139,15 +139,18 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify([orderItem])
-            }).then((res) => {
-                const data = res.json()
+            })
+            .then((response) => response.json())
+            .then((data) => {
                 if (data.init_point) {
                     return location.href = data.init_point
+                } else if (data.message) {
+                    throw new Error(data.message);
                 }
                 $.unblockUI()
             }).catch((err) => {
                 $.unblockUI()
-                console.error(err)
+                alert(err.message)
             })
         })
     </script>
