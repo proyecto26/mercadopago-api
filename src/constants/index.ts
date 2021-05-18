@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken'
 
 export const PROD_ENV = 'production'
-export const DOMAIN = 'http://localhost:8001'
+export const DOMAIN = 'https://mercadopago-e-commerce.herokuapp.com'
 export const MERCADOPAGO = {
   ACCESS_TOKEN: 'APP_USR-2572771298846850-120119-a50dbddca35ac9b7e15118d47 b111b5a-681067803',
   PLATFORM_ID: undefined,
