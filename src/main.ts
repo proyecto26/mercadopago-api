@@ -25,13 +25,13 @@ async function bootstrap() {
   app.use(json({
     limit: '10mb'
   }))
-  /*app.useGlobalPipes(
+  app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true
     })
-  )*/
+  )
 
   // SECURITY
   setupSecurity(app)
