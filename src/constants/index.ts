@@ -11,7 +11,8 @@ export const MERCADOPAGO = {
   CURRENCY_ID: 'COP',
   TAXES_IVA: 16,
   SHIPMENTS_COST: 1000,
-  NOTIFICATION_URL: `${DOMAIN}/api/payments/notification`,
+  // NOTIFICATION_URL: `${DOMAIN}/api/payments/notification`,
+  NOTIFICATION_URL: `https://hookb.in/DrL8BqPKXXHdNNEwgodd`,
   SUCCESS_URL: `${DOMAIN}/ecommerce/success`,
   FAILURE_URL: `${DOMAIN}/ecommerce/failure`,
   PENDING_URL: `${DOMAIN}/ecommerce/pending`

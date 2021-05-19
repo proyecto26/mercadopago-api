@@ -67,7 +67,7 @@ const formatUser = (user: User): Partial<CreatePreferencePayload> => ({
 })
 
 const formatOrder = (order: Order): Partial<CreatePreferencePayload> => ({
-  external_reference: `${order.id}`,
+  external_reference: `jdnichollsc@hotmail.com`, // TODO: use order.id
   items: order.orderItems.map(orderItem => ({
     title: orderItem.item.title,
     description: orderItem.item.description,
