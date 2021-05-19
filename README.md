@@ -18,6 +18,8 @@
 
 ## Introduction
 
+![image](https://user-images.githubusercontent.com/2154886/118763210-146aee00-b83d-11eb-97ee-8646df3620c4.png)
+
 Link: [Integración QR - Postman API Collection](https://documenter.getpostman.com/view/7908112/SVfNv9FJ?version=latest)
 
 ### Credentials
