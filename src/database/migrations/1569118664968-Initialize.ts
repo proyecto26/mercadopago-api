@@ -312,7 +312,7 @@ export class Initialize1569118664968 implements MigrationInterface {
         title: 'Samsung Galaxy S9',
         description: 'Dispositivo móvil de Tienda e-commerce',
         pictureUrl: `${assetsPath}/samsung-galaxy-s9-xxl.jpg`,
-        price: 10000000,
+        price: 15000,
         categoryId: smartphonesCategoryId
       }
     ])
