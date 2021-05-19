@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common'
+import { Logger, Module, HttpModule } from '@nestjs/common'
 
 import { AuthModule } from './auth'
 import { AppController } from './app.controller'
@@ -26,6 +26,7 @@ import {
 
 @Module({
   imports: [
+    HttpModule,
     AuthModule,
     UserModule,
     RoleModule,

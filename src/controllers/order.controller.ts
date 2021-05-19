@@ -60,22 +60,20 @@ export class OrderController {
   @ApiOkResponse({ description: 'The order has been created successfully', type: PreferenceDto })
   @ApiBadRequestResponse({ description: 'The order could not be created' })
   @ApiForbiddenResponse({ description: 'You do not have the necessary role to perform this action' })
-  //@ApiBearerAuth()
-  //@UseGuards(AuthGuard(), RolesGuard)
-  //@Roles(
-  //  DefaultRole.Admin,
-  //  DefaultRole.User
-  //)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(
+    DefaultRole.Admin,
+    DefaultRole.User
+  )
   @Post()
   @HttpCode(HttpStatus.OK)
   async addOrder(
     @Request() req: { user: AuthUser },
     @Body() itemsDto: ItemDto[],
-  ): Promise<void> {
+  ): Promise<PreferenceDto> {
     try {
       if (!itemsDto || !itemsDto.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
-      // TODO: Enable Auth to avoid using test user
-      const userId = req.user?.id || '681094118'
       const items = await this.itemService.findByIds(itemsDto.map(i => i.id))
       if (itemsDto.length !== items.length) throw new Error(ERRORS.ITEM_NOT_FOUND)
 
@@ -90,6 +88,8 @@ export class OrderController {
         total += itemQuantity.quantity * item.price
         return total
       }, 0)
+
+      const userId = req.user.id
       const user = await this.userService.findOne(userId)
       const order = await this.orderService.save(new Order({
         userId,

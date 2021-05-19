@@ -5,10 +5,11 @@ import { CreatePreferencePayload } from 'mercadopago/models/preferences/create-p
 import { UpdatePreferencePayload } from 'mercadopago/models/preferences/update-payload.model'
 import { CreatePaymentPayload } from 'mercadopago/models/payment/create-payload.model'
 import { UpdatePaymentPayload } from 'mercadopago/models/payment/update-payload.model'
+import { DefaultConfigurationOmitQs } from 'mercadopago/models/default-configuration.model'
 import { MERCADOPAGO } from '../constants'
 import { User } from '../models/user'
 import { Order, OrderStatus } from '../models/order'
-import { DefaultConfigurationOmitQs } from 'mercadopago/models/default-configuration.model'
+import { PreferenceDto } from '../models/preference'
 
 MercadoPago.configure({
   access_token: MERCADOPAGO.ACCESS_TOKEN,
@@ -79,8 +80,8 @@ const formatOrder = (order: Order): Partial<CreatePreferencePayload> => ({
   }))
 })
 
-export const createPreference = (user: User, order: Order) => {
-  const currentDate = new Date()
+export const createPreference = (user: User, order: Order): Promise<PreferenceDto> => {
+  // const currentDate = new Date()
   const preference: CreatePreferencePayload = {
     ...formatUser(user),
     ...formatOrder(order),

@@ -79,39 +79,42 @@
     <div class="container-fluid">
         <%- include('./header'); %>
         <section>
-            <div class="card">
-                <div class="row">
-                    <div class="col">
-                        <img src="<%= item.pictureUrl %>" class="card-img-top" alt="...">
-                    </div>
-                    <div class="col">
-                        <a href="#" class="btn btn-primary first-bt cart-btn">
-                            <%= item.price %>
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <%= item.title %>
-                            </h5>
-                            <p class="card-text">
-                                <%= item.description %>
-                            </p>
-                            <div class="row">
-                                <select class="col form-select">
-                                    <option selected>Seleccionar cantidad</option>
-                                    <option value="1">Uno</option>
-                                    <option value="2">Dos</option>
-                                    <option value="3">Tres</option>
-                                    <option value="4">Cuatro</option>
-                                    <option value="5">Cinco</option>
-                                </select>
-                                <button class="btn btn-primary col mx-3">
-                                    <i class="fas fa-coins mx-2"></i>Pagar
-                                </button>
+            <form action="/ecommerce/payment" method="POST">
+                <div class="card">
+                    <input type="hidden" name="id" value="<%= item.id %>" />
+                    <div class="row">
+                        <div class="col">
+                            <img src="<%= item.pictureUrl %>" class="card-img-top" alt="...">
+                        </div>
+                        <div class="col">
+                            <a href="#" class="btn btn-primary first-bt cart-btn">
+                                <%= item.price %>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= item.title %>
+                                </h5>
+                                <p class="card-text">
+                                    <%= item.description %>
+                                </p>
+                                <div class="row">
+                                    <select name="quantity" class="col form-select">
+                                        <option selected>Seleccionar cantidad</option>
+                                        <option value="1">Uno</option>
+                                        <option value="2">Dos</option>
+                                        <option value="3">Tres</option>
+                                        <option value="4">Cuatro</option>
+                                        <option value="5">Cinco</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary col mx-3">
+                                        <i class="fas fa-coins mx-2"></i>Pagar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
     </div>
     <%- include('../shared/scripts'); %>
@@ -120,15 +123,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
     <script>
         var createOrderEndpoint = '/api/orders'
-        var item = <%- JSON.stringify(item) %>
         $('.btn-primary').on('click', function (event) {
-            event.preventDefault()
             var quantity = Number($('select').val())
             if (!quantity) {
-                return alert('La cantidad es requerida')
+                alert('La cantidad es requerida')
+                return event.preventDefault()
             }
             $.blockUI({ message: 'Cargando' });
-
+            /*
+            var item = <%- JSON.stringify(item) %>
             var orderItem = Object.assign({
                 quantity
             }, item)
@@ -152,7 +155,7 @@
             }).catch((err) => {
                 $.unblockUI()
                 alert(err.message)
-            })
+            })*/
         })
     </script>
 </body>

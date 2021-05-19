@@ -1,8 +1,12 @@
-import { Controller, Get, Param, Query, ParseIntPipe, Render, Req } from '@nestjs/common'
-import { Request } from 'express'
+import { Controller, Get, Param, Query, ParseIntPipe, Render, Req, Post, Res, Body, BadRequestException, Inject, Logger, LoggerService } from '@nestjs/common'
+import { Request, Response } from 'express'
 import * as numeral from 'numeral'
+import { ERRORS } from '../constants'
+import { OrderItem } from '../models/orderItem'
 import { Item } from '../models/item'
-import { CategoryService, ItemService } from '../repositories'
+import { Order, OrderStatus } from '../models/order'
+import { createPreference } from '../services/payment'
+import { CategoryService, ItemService, OrderService, UserService } from '../repositories'
 
 const formatItem = (item: Item) => ({
   ...item,
@@ -14,6 +18,9 @@ export class ECommerceController {
   constructor(
     private readonly itemService: ItemService,
     private readonly categoryService: CategoryService,
+    private readonly userService: UserService,
+    private readonly orderService: OrderService,
+    @Inject(Logger) private readonly logger: LoggerService
   ) {}
 
   @Get('success')
@@ -79,6 +86,42 @@ export class ECommerceController {
       categoryId,
       items: items.map((item) => formatItem(item)),
       categories
+    }
+  }
+
+  @Post('payment')
+  async payment(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body('id', ParseIntPipe) id: number,
+    @Body('quantity', ParseIntPipe) quantity: number
+  ) {
+    try {
+      const item = await this.itemService.findOne(id)
+      if (!item) throw new Error(ERRORS.ITEM_NOT_FOUND)
+
+      const orderItems: OrderItem[] = [
+        new OrderItem({
+          item,
+          unitPrice: item.price,
+          quantity: quantity,
+        })
+      ]
+      const totalAmount = quantity * item.price
+      // TODO: Enable Auth to avoid using test user
+      const userId = '681094118'
+      const user = await this.userService.findOne(userId)
+      const order = await this.orderService.save(new Order({
+        userId,
+        status: OrderStatus.Created,
+        totalAmount,
+        orderItems
+      }))
+      const { init_point } = await createPreference(user, order)
+      res.redirect(init_point)
+    } catch (error) {
+      this.logger.error(error.message, 'ECOMMERCE_PAYMENT')
+      throw new BadRequestException(error.message)
     }
   }
 }
