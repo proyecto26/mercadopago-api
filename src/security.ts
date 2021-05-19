@@ -9,6 +9,7 @@ const allowedOrigins = [
   // MOBILE APPS
   'capacitor://localhost',
   'ionic://localhost',
+  'https://mercadopago-e-commerce.herokuapp.com',
 ]
 
 export function setupSecurity (app: INestApplication): void {

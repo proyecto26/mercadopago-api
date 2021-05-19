@@ -73,16 +73,15 @@ export class OrderController {
     @Body() itemsDto: ItemDto[],
   ): Promise<void> {
     try {
-      if (!itemsDto.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
+      if (!itemsDto || !itemsDto.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
       // TODO: Enable Auth to avoid using test user
       const userId = req.user?.id || '681094118'
       const items = await this.itemService.findByIds(itemsDto.map(i => i.id))
-      if (!items.length) throw new Error(ERRORS.ORDER_ITEMS_EMPTY)
+      if (itemsDto.length !== items.length) throw new Error(ERRORS.ITEM_NOT_FOUND)
 
       const orderItems: OrderItem[] = []
       const totalAmount = itemsDto.reduce((total, itemQuantity) => {
         const item = items.find((i) => i.id === itemQuantity.id)
-        if (!item) throw new Error(ERRORS.ITEM_NOT_FOUND)
         orderItems.push(new OrderItem({
           item,
           unitPrice: item.price,
