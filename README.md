@@ -18,9 +18,8 @@
 
 ## Introduction
 
+Link: https://mercadopago-e-commerce.herokuapp.com/ecommerce
 ![image](https://user-images.githubusercontent.com/2154886/118763210-146aee00-b83d-11eb-97ee-8646df3620c4.png)
-
-Link: [Integración QR - Postman API Collection](https://documenter.getpostman.com/view/7908112/SVfNv9FJ?version=latest)
 
 ### Credentials
 Son las claves que **MercadoPago** proporciona para poder configurar tus integraciones, es una llave que identifica a tu usario **(No compartir)**.
@@ -88,6 +87,7 @@ Ivas en Colombia:
 
 
 ### Testing
+- [Integración QR - Postman API Collection](https://documenter.getpostman.com/view/7908112/SVfNv9FJ?version=latest)
 - [Checkout Pro](https://www.mercadopago.com.co/developers/es/guides/online-payments/checkout-pro/test-integration)
 - [Checkout API](https://www.mercadopago.com.co/developers/es/guides/online-payments/checkout-api/testing)
 - [Mobile Checkout](https://www.mercadopago.com.co/developers/es/guides/online-payments/mobile-checkout/testing)
