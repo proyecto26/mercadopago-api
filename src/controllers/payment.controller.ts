@@ -64,7 +64,7 @@ export class PaymentController {
     @Body() notification: NotificationDto
   ): Promise<void> {
     try {
-      this.logger.log(notification, 'NOTIFICATION')
+      this.logger.log(notification, 'WEBHOOK_NOTIFICATION')
       if (
         notification.action === NotificationAction.PaymentCreated
         || notification.action === NotificationAction.PaymentUpdated
