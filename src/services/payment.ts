@@ -85,14 +85,14 @@ export const createPreference = (user: User, order: Order): Promise<PreferenceDt
   const preference: CreatePreferencePayload = {
     ...formatUser(user),
     ...formatOrder(order),
-    binary_mode: false,
     auto_return: 'approved',
+    // binary_mode: false,
     // expires: true,
     // expiration_date_from: moment(currentDate).format(),
     // expiration_date_to: moment(currentDate).add(1, 'days').format(),
-    notification_url: MERCADOPAGO.NOTIFICATION_URL,
-    statement_descriptor: MERCADOPAGO.BUSINESS_NAME,
+    // statement_descriptor: MERCADOPAGO.BUSINESS_NAME,
     // additional_info: 'CUSTOM DATA',
+    notification_url: MERCADOPAGO.NOTIFICATION_URL,
     back_urls: {
       success: MERCADOPAGO.SUCCESS_URL,
       failure: MERCADOPAGO.FAILURE_URL,
@@ -109,11 +109,12 @@ export const createPreference = (user: User, order: Order): Promise<PreferenceDt
       default_installments: 6,
       // default_payment_method_id: null
     },
+    /*
     taxes: [{
       type: 'IVA',
       value: MERCADOPAGO.TAXES_IVA
     }],
-    /* tracks: [
+    tracks: [
       {
         type: 'facebook_ad',
         values: {
