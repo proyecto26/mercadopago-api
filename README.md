@@ -1,5 +1,11 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank">
+    <img src="https://avatars.githubusercontent.com/u/28507035?s=200&v=4" width="200" alt="Nest Logo" />
+  </a>
+  <a href="http://developers.mercadopago.com" target="blank">
+    <img src="https://avatars.githubusercontent.com/u/900583?s=200&v=4" width="200" alt="MercadoPago Logo" />
+  </a>
+  <hr>
 </p>
 
 |   | MercadoPago API Template |
@@ -146,6 +152,14 @@ $ yarn test:cov
 ## Supporting 🍻
 I believe in Unicorns 🦄
 Support [me](http://www.paypal.me/jdnichollsc/2), if you do too.
+
+Donate **Ethereum**, **ADA**, **BNB**, **SHIBA**, **USDT**, **DOGE**:
+
+![Wallet address](https://user-images.githubusercontent.com/2154886/123501719-84bf1900-d60c-11eb-882c-98a499cea323.png)
+
+> Wallet address: 0x3F9fA8021B43ACe578C2352861Cf335449F33427
+
+Please let us know your contributions! 🙏
 
 ## Happy coding 💯
 Made with ❤️
