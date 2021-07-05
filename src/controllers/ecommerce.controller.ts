@@ -95,7 +95,7 @@ export class ECommerceController {
     @Res() res: Response,
     @Body('id', ParseIntPipe) id: number,
     @Body('quantity', ParseIntPipe) quantity: number,
-    @Body('redirect', ParseBoolPipe) redirect: boolean
+    @Body('redirect') redirect?: boolean
   ) {
     try {
       const item = await this.itemService.findOne(id)
@@ -119,7 +119,7 @@ export class ECommerceController {
         orderItems
       }))
       const preference = await createPreference(user, order)
-      if (redirect) {
+      if (Boolean(redirect)) {
         res.redirect(preference.init_point);
       } else {
         res.json(preference).status(200);
