@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, ParseIntPipe, Render, Req, Post, Res, Body, BadRequestException, Inject, Logger, LoggerService } from '@nestjs/common'
+import { Controller, Get, Param, Query, ParseIntPipe, Render, Req, Post, Res, Body, BadRequestException, Inject, Logger, LoggerService, ParseBoolPipe } from '@nestjs/common'
 import { Request, Response } from 'express'
 import * as numeral from 'numeral'
 import { ERRORS } from '../constants'
@@ -94,7 +94,8 @@ export class ECommerceController {
     @Req() req: Request,
     @Res() res: Response,
     @Body('id', ParseIntPipe) id: number,
-    @Body('quantity', ParseIntPipe) quantity: number
+    @Body('quantity', ParseIntPipe) quantity: number,
+    @Body('redirect', ParseBoolPipe) redirect: boolean
   ) {
     try {
       const item = await this.itemService.findOne(id)
@@ -117,8 +118,12 @@ export class ECommerceController {
         totalAmount,
         orderItems
       }))
-      const { init_point } = await createPreference(user, order)
-      res.redirect(init_point)
+      const preference = await createPreference(user, order)
+      if (redirect) {
+        res.redirect(preference.init_point);
+      } else {
+        res.json(preference).status(200);
+      }
     } catch (error) {
       this.logger.error(error.message, 'ECOMMERCE_PAYMENT')
       throw new BadRequestException(error.message)

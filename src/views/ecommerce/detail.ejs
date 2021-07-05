@@ -80,6 +80,7 @@
         <%- include('./header'); %>
         <section>
             <form action="/ecommerce/payment" method="POST">
+                <input type="hidden" name="redirect" value="true">
                 <div class="card">
                     <input type="hidden" name="id" value="<%= item.id %>" />
                     <div class="row">
