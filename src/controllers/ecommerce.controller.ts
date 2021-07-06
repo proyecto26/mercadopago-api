@@ -1,6 +1,8 @@
 import { Controller, Get, Param, Query, ParseIntPipe, Render, Req, Post, Res, Body, BadRequestException, Inject, Logger, LoggerService, ParseBoolPipe } from '@nestjs/common'
 import { Request, Response } from 'express'
 import * as numeral from 'numeral'
+import { ApiExcludeEndpoint } from '@nestjs/swagger'
+
 import { ERRORS } from '../constants'
 import { OrderItem } from '../models/orderItem'
 import { Item } from '../models/item'
@@ -25,6 +27,7 @@ export class ECommerceController {
 
   @Get('success')
   @Render('ecommerce/success')
+  @ApiExcludeEndpoint()
   getSuccess(
     @Req() request: Request,
     @Query('payment_method_id') paymentMethod: string,
@@ -42,6 +45,7 @@ export class ECommerceController {
 
   @Get('pending')
   @Render('ecommerce/pending')
+  @ApiExcludeEndpoint()
   getPending(
     @Req() request: Request
   ) {
@@ -52,6 +56,7 @@ export class ECommerceController {
 
   @Get('failure')
   @Render('ecommerce/failure')
+  @ApiExcludeEndpoint()
   getFailure(
     @Req() request: Request
   ) {
@@ -62,6 +67,7 @@ export class ECommerceController {
 
   @Get('detail/:id')
   @Render('ecommerce/detail')
+  @ApiExcludeEndpoint()
   async getDetail(
     @Param('id', ParseIntPipe) id: number
   ) {
@@ -73,6 +79,7 @@ export class ECommerceController {
 
   @Get()
   @Render('ecommerce/index')
+  @ApiExcludeEndpoint()
   async getHome(
     @Query('category') categoryId: number
   ) {
@@ -90,6 +97,7 @@ export class ECommerceController {
   }
 
   @Post('payment')
+  @ApiExcludeEndpoint()
   async payment(
     @Req() req: Request,
     @Res() res: Response,
