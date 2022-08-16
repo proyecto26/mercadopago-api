@@ -81,7 +81,7 @@ Es posible establecer medios de pago no soportados dependiendo del país, ademá
 
 #### Impuestos
 Existen consideraciones de impuestos diferentes por país, estos son establecidos en el momento de crear la preferencia de pago.
-MercadoPago es un agente de retención y por defecto aplica retención sobre el 19% de la base del monto total de la preferencia generadam a menos que se indique lo contrario en la creación de la preferencia.
+MercadoPago es un agente de retención y por defecto aplica retención sobre el 19% de la base del monto total de la preferencia generada a menos que se indique lo contrario en la creación de la preferencia.
 
 Ivas en Colombia:
 - 0%
